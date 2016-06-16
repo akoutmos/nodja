@@ -1,0 +1,17 @@
+{
+    "variables": {
+        "uglify_flags": "--screwie8 --mangle --compress"
+    },
+
+    "rules": {
+        "uglify": "$in --output $out --source-map $out.map ${uglify_flags}"
+    },
+
+    "build_statements": [
+        {
+            "input": "",
+            "output": "",
+            "rule": ""
+        }
+    ]
+}

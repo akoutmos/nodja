@@ -27,7 +27,8 @@
     "dependencies": {
         "commander": "2.9.0",
         "glob": "7.0.4",
-        "which": "1.2.10"
+        "which": "1.2.10",
+        "nunjucks": "2.4.2"
     },
     "devDependencies": {
         "mocha": "2.5.3",
