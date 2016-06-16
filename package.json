@@ -1,0 +1,37 @@
+{
+    "name": "nodja",
+    "version": "0.0.1",
+    "description": "Ninja build file generator",
+    "main": "index.js",
+    "bin": {
+        "nodja": "./index.js"
+    },
+    "scripts": {
+        "test": "mocha ./test/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akoutmos/nodja.git"
+    },
+    "keywords": [
+        "ninja",
+        "build",
+        "generator"
+    ],
+    "author": "Alexander Koutmos",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/akoutmos/nodja/issues"
+    },
+    "homepage": "https://github.com/akoutmos/nodja#readme",
+    "dependencies": {
+        "commander": "2.9.0",
+        "glob": "7.0.4",
+        "which": "1.2.10"
+    },
+    "devDependencies": {
+        "mocha": "2.5.3",
+        "istanbul": "0.4.3",
+        "jshint": "2.9.2"
+    }
+}
