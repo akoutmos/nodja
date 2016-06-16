@@ -1,10 +1,10 @@
 {
     "name": "nodja",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Ninja build file generator",
     "main": "index.js",
     "bin": {
-        "nodja": "./index.js"
+        "nodja": "./bin/nodja"
     },
     "scripts": {
         "test": "mocha ./test/"
