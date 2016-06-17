@@ -1,4 +1,5 @@
 let fs = require('fs'),
+    child_process = require('child_process'),
     commander = require('commander'),
     glob = require('glob'),
     which = require('which');
@@ -14,6 +15,22 @@ exports.cli = cli;
  */
 function getFileContents (path) {
     return fs.readFileSync(path).toString();
+}
+
+/**
+ * Returns whether the file exists or not
+ *
+ * @param file
+ * @returns {Boolean}
+ */
+function fileExists (file) {
+    try {
+        fs.accessSync(file, fs.F_OK);
+    } catch (err) {
+        return false;
+    }
+
+    return true;
 }
 
 /**
@@ -40,9 +57,28 @@ function cli (args) {
         .option('--output <output_file>', 'where to write the output ninja file to')
         .option('--run', 'if provided, created ninja file will be executed')
         .action(function (input_file, options) {
-            console.log(input_file);
-            console.log(options.output);
-            console.log(options.run);
+            let run_build = options.run || false,
+                output_file = options.output || 'build.ninja';
+
+            //If the build should be executed
+            if (run_build) {
+                //Check to make sure that the ninja binary is available
+                try {
+                    which.sync('ninja');
+                } catch (err) {
+                    console.err('ERROR: ninja binary not found');
+                    process.exit(1);
+                }
+
+                //Spawn child ninja process, detach and exit successfully
+                child_process.spawn('ninja', ['-f', output_file], {
+                    cwd: process.cwd(),
+                    env: process.env,
+                    stdio: 'inherit',
+                    detached: true
+                }).unref();
+                process.exit(0);
+            }
         });
 
     commander
@@ -56,7 +92,6 @@ function cli (args) {
     commander
         .version('0.0.2')
         .parse(args);
-
 
     //If no arguments passed in, print help and exit
     if (!commander.args.length){
