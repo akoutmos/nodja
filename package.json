@@ -26,9 +26,8 @@
     "homepage": "https://github.com/akoutmos/nodja#readme",
     "dependencies": {
         "commander": "2.9.0",
-        "glob": "7.0.4",
-        "which": "1.2.10",
-        "nunjucks": "2.4.2"
+        "glob": "git://github.com/akoutmos/node-glob.git#master",
+        "which": "1.2.10"
     },
     "devDependencies": {
         "mocha": "2.5.3",
