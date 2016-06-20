@@ -69,7 +69,7 @@ test('Variable schema', function (t) {
     t.test('Invalid variable_sets variable assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableSetsVariableAssignments.json`);
-        }, { message: /Varable with key \'.*\' in variable set \'.*\' must be a string/ });
+        }, { message: /Variable with key \'.*\' in variable set \'.*\' must be a string/ });
 
         t.end();
     });
