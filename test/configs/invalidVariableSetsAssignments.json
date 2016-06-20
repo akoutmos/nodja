@@ -1,0 +1,11 @@
+{
+    "variable_sets": {
+        "development": {
+
+        },
+        "production": {
+
+        },
+        "invalid": "invalid"
+    }
+}

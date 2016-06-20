@@ -3,7 +3,9 @@ let fs = require('fs'),
     child_process = require('child_process'),
     commander = require('commander'),
     glob = require('glob'),
-    which = require('which');
+    which = require('which'),
+    nodja_config_validator = require('./lib/NodjafileValidator');
+
 
 //Module constants
 const templates_path = `${__dirname}/templates`;
@@ -28,106 +30,6 @@ exports.cli = cli;
 function getFileContents (path) {
     return fs.readFileSync(path).toString();
 }
-
-/**
- * Returns whether the file exists or not
- *
- * @param file
- * @returns {Boolean}
- */
-function fileExists (file) {
-    try {
-        fs.accessSync(file, fs.F_OK);
-    } catch (err) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Returns whether the provided file is a valid nodja config
- *
- * @param config
- * @returns {Boolean}
- */
-function validateNodjaConfig (config) {
-    let config_contents,
-        nodja_config;
-
-    //Check to make sure file exists
-    if (!fileExists(config)) {
-        console.error(`ERROR: Could not find '${config}'`);
-        return false;
-    }
-
-    //Check that it is a valid JSON file
-    try {
-        config_contents = fs.readFileSync(config).toString();
-        nodja_config = JSON.parse(config_contents);
-    } catch (err) {
-        console.error('ERROR: Nodja configuration is malformed JSON');
-        return false;
-    }
-
-    //Check that variables schema is correct
-    if (!nodja_config.hasOwnProperty('variable_sets') && !nodja_config.hasOwnProperty('variables')) {
-        console.error(`ERROR: '${config}' must have either a 'variables' or 'variable_sets' entry`);
-        return false;
-    }
-
-    if (nodja_config.hasOwnProperty('variable_sets') && nodja_config.hasOwnProperty('variables')) {
-        console.error(`ERROR: '${config}' cannot contain both 'variables' and 'variable_sets' entries`);
-        return false;
-    }
-
-    if (!nodja_config.hasOwnProperty('variable_sets') && nodja_config.hasOwnProperty('variables') && typeof nodja_config.variables !== 'object') {
-        console.error('ERROR: \'variables\' entry must be an object');
-        return false;
-    }
-
-    if (nodja_config.hasOwnProperty('variables')) {
-        for (let variable in nodja_config.variables) {
-            if (typeof nodja_config.variables[variable] !== 'string') {
-                console.error(`ERROR: Variable with key \'${variable}\' must be a string`);
-                return false;
-            }
-        }
-    }
-
-    if (nodja_config.hasOwnProperty('variable_sets')) {
-        for (let set in nodja_config.variable_sets) {
-            if (typeof nodja_config.variable_sets[set] !== 'object') {
-                console.error(`ERROR: Variable with key \'${set}\' must be an object`);
-                return false;
-            }
-
-            for (let variable in nodja_config.variable_sets[set]) {
-                if (typeof nodja_config.variable_sets[set][variable] !== 'string') {
-                    console.error(`ERROR: Variable with key \'${variable}\' in variable set '${set}' must be a string`);
-                    return false;
-                }
-            }
-        }
-    }
-
-    //Check that rules schema is correct
-    if (!nodja_config.hasOwnProperty('rules') && nodja_config.hasOwnProperty('rules') && typeof nodja_config.rules !== 'object') {
-        console.error('ERROR: \'rules\' entry must be an object');
-        return false;
-    }
-
-    //Check that build statements schema is correct
-    if (!Array.isArray(nodja_config.build_statements)) {
-        console.error('ERROR: \'build_statements\' entry must be an array');
-        return false;
-    }
-
-    //If we got here, it is valid
-    return true;
-}
-
-
 
 /**
  * Create a variable assignment entry for ninja config
@@ -197,7 +99,6 @@ function generatePhonyEntry () {
 
 }
 
-
 /**
  * The cli entry point
  *
@@ -224,7 +125,7 @@ function cli (args) {
                 default_build_statements = [];
 
             //Validate nodja config
-            if ( !validateNodjaConfig(input_file)) {
+            if (!nodja_config_validator(input_file)) {
                 console.error('An error occured! Aborting.');
                 process.exit(1);
             }
