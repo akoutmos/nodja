@@ -1,0 +1,15 @@
+{
+    "variables": {
+        "var1": "this is a valid variable"
+    },
+
+    "rule_sets": {
+        "development": {
+
+        },
+        "production": {
+
+        },
+        "invalid": "invalid"
+    }
+}

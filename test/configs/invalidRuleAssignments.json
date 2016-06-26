@@ -1,0 +1,14 @@
+{
+    "variables": {
+        "var1": "this is a valid variable"
+    },
+
+
+    "rules": {
+        "var1": "valid",
+        "var2": "valid",
+        "var3": [
+            "invalid"
+        ]
+    }
+}

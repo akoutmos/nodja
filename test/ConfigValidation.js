@@ -42,7 +42,7 @@ test('Variable schema', function (t) {
         t.end();
     });
 
-    t.test('Invalid variable section', function (t) {
+    t.test('Invalid variables section', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableSection.json`);
         }, { message: /.*\'variables\' entry must be an object/ });
@@ -77,7 +77,59 @@ test('Variable schema', function (t) {
     t.end();
 });
 
-test('Rule schema');
+test('Rule schema', function (t) {
+    t.plan(6);
+
+    t.test('Config does not contain rule section', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/validVariables.json`);
+        }, { message: /.*must have either a 'rules' or 'rule_sets' entry/ });
+
+        t.end();
+    });
+
+    t.test('Config contains both rules and rule_sets sections', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/bothRuleSections.json`);
+        }, { message: /.*cannot contain both 'rules' and 'rule_sets' entries/ });
+
+        t.end();
+    });
+
+    t.test('Invalid rules section', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleSection.json`);
+        }, { message: /.*\'rules\' entry must be an object/ });
+
+        t.end();
+    });
+
+    t.test('Invalid rule assignments', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleAssignments.json`);
+        }, { message: /Rule with key \'.*\' must be a string/ });
+
+        t.end();
+    });
+
+    t.test('Invalid rule_sets assignments', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleSetsAssignments.json`);
+        }, { message: /Set with key \'.*\' must be an object/ });
+
+        t.end();
+    });
+
+    t.test('Invalid rule_sets rule assignments', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleSetsRuleAssignments.json`);
+        }, { message: /Rule with key \'.*\' in rule set \'.*\' must be a string/ });
+
+        t.end();
+    });
+
+    t.end();
+});
 
 test('Build statement schema');
 

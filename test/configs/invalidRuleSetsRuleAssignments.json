@@ -1,0 +1,16 @@
+{
+    "variables": {
+        "var1": "this is a valid variable"
+    },
+
+    "rule_sets": {
+        "development": {
+            "rule1": "this is dev rule 1",
+            "rule2": "this is dev rule 2"
+        },
+        "production": {
+            "rule1": "this is prod rule 1",
+            "rule2": false
+        }
+    }
+}
