@@ -1,33 +1,22 @@
 {
-    "variable_sets": {
-        "development": {
-            "uglify_flags": "--screwie8 --mangle --compress"
-        },
-        "production": {
-            "uglify_flags": "--screwie8 --mangle --compress"
-        }
+    "variables": {
+        "uglify_flags": "--screwie8 --mangle --compress"
     },
 
-    "rule_sets": {
-        "development": {
-            "uglifyjs": "uglifyjs $in --output $out --source-map $out.map ${uglify_flags}",
-            "clean": "rm -rf build"
-        },
-        "production": {
-            "uglifyjs": "jshint $in && uglifyjs $in --output $out --source-map $out.map ${uglify_flags}",
-            "clean": "rm -rf build"
-        }
+    "rules": {
+        "uglifyjs": "jshint $in && uglifyjs $in --output $out --source-map $out.map ${uglify_flags}",
+        "clean": "rm -rf build"
     },
 
     "build_statements": [
         {
-            "input": "test/test{1,2}.js",
+            "input": "test_files/test{1,2}.js",
             "output": "build/test12.min.js",
             "rule": "uglifyjs",
             "default": true
         },
         {
-            "input": "test/test3.js",
+            "input": "test_files/test3.js",
             "output": "build/test3.min.js",
             "rule": "uglifyjs",
             "default": true
