@@ -6,98 +6,8 @@ let fs = require('fs'),
     which = require('which'),
     nodja_config_validator = require('./lib/NodjafileValidator');
 
-
-//Module constants
-const templates_path = `${__dirname}/templates`;
-const templates = Object.freeze({
-    'build_statement': getFileContents(`${templates_path}/build_statement`),
-    'default': getFileContents(`${templates_path}/default`),
-    'ninja': getFileContents(`${templates_path}/ninja`),
-    'rule': getFileContents(`${templates_path}/rule`),
-    'variable': getFileContents(`${templates_path}/variable`)
-});
-
-
 //Exposed module functions
 exports.cli = cli;
-
-/**
- * Returns the contents of a given file synchronously
- *
- * @param path
- * @returns {String}
- */
-function getFileContents (path) {
-    return fs.readFileSync(path).toString();
-}
-
-/**
- * Create a variable assignment entry for ninja config
- *
- * @param name
- * @param value
- * @returns {String}
- */
-function generateVariableEntry (name, value) {
-    let entry = templates.variable;
-
-    entry = entry.replace('{{name}}', name);
-    entry = entry.replace('{{value}}', value);
-
-    return entry;
-}
-
-/**
- * Create a rule assignment entry for the ninja config
- *
- * @param rule
- * @param command
- * @returns {undefined}
- */
-function generateRuleEntry (rule, command) {
-    let entry = templates.rule;
-
-    entry = entry.replace('{{name}}', rule);
-    entry = entry.replace('{{command}}', command);
-
-    return entry;
-}
-
-/**
- * Create a build statement entry for the ninja config
- *
- * @param output
- * @param rule
- * @param input
- * @returns {String}
- */
-function generateBuildStatementEntry (output, rule, input) {
-    let entry = templates.build_statement;
-
-    entry = entry.replace('{{output}}', output);
-    entry = entry.replace('{{rule}}', rule);
-    entry = entry.replace('{{dependencies}}', input);
-
-    return entry;
-}
-
-/**
- * Create a default entry statement
- *
- * @param output
- * @returns {String}
- */
-function generateDefaultEntry (output) {
-    let entry = templates['default'];
-
-    entry = entry.replace('{{build_statement}}', output);
-
-    return entry;
-}
-
-function generatePhonyEntry () {
-
-}
 
 /**
  * The cli entry point
@@ -140,17 +50,12 @@ function cli (args) {
                 );
             }
 
-
             //Set rules section
             for (let rule in nodja_config.rules) {
                 rule_section.push(
                     generateRuleEntry(rule, nodja_config.rules[rule])
                 );
             }
-
-
-
-
 
             //Set build statements section and defaults
             num_build_statements = nodja_config.build_statements.length;

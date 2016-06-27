@@ -1,4 +1,4 @@
-let test = require("tap").test;
+let test = require('tap').test;
 let validator = require('../lib/NodjafileValidator');
 
 test('File validator', function (t) {
