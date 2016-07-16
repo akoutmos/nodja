@@ -1,13 +1,14 @@
 {
     "name": "nodja",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Ninja build file generator",
     "main": "index.js",
     "bin": {
         "nodja": "./bin/nodja"
     },
     "scripts": {
-        "test": "tap ./test/*.js"
+        "test": "tap ./test/*.js",
+        "coverage": "tap ./test/*.js --cov --coverage-report=lcov"
     },
     "repository": {
         "type": "git",
@@ -31,7 +32,6 @@
     },
     "devDependencies": {
         "tap": "5.7.2",
-        "istanbul": "0.4.3",
         "jshint": "2.9.2"
     }
 }
