@@ -1,8 +1,9 @@
 let test = require('tap').test;
-let builder = require('../lib/NodjafileBuilder.js');
+let builder = require('../lib/NinjafileBuilder.js');
+let fs = require('fs');
 
 test('Add config builder and check results', function (t) {
-    t.plan(5);
+    t.plan(6);
 
     t.test('Check variables portion of config builder', function (t) {
         //Initial number of variables
@@ -145,6 +146,32 @@ test('Add config builder and check results', function (t) {
         //Check that clearing removes all rules
         builder.clearAll();
         t.equal(builder.getPhonyRules().length, 0, 'Expected no phony rules');
+
+        t.end();
+    });
+
+    t.test('Check that generated ninja file is correct', function (t) {
+        //Add variables
+        builder.addVariable('uglify_flags', '--screwie8 --mangle --compress');
+
+        //Add rules
+        builder.addRule('uglifyjs', 'jshint $in && uglifyjs $in --output $out --source-map $out.map ${uglify_flags}');
+        builder.addRule('clean', 'rm -rf build');
+
+        //Add build statements
+        builder.addBuildStatement('build/test12.min.js', 'uglifyjs', ['test1.js', 'test2.js']);
+        builder.addBuildStatement('build/test3.min.js', 'uglifyjs', 'test3.js');
+        builder.addBuildStatement('clean', 'clean', '');
+
+        //Add defaults
+        builder.addDefault('build/test12.min.js');
+        builder.addDefault('build/test3.min.js');
+
+        //Add phony aliases
+        builder.addPhonyRule('all', ['build/test12.min.js', 'build/test3.min.js']);
+
+        //Get the resulting ninja file
+        t.equal(builder.generateNinjaBuild(), fs.readFileSync(`${__dirname}/ninja_files/ninja_file`).toString(), 'Ninjafile output does not match');
 
         t.end();
     });

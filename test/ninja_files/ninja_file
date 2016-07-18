@@ -1,7 +1,8 @@
 #------------------------------
 #--Start of Variables Section--
 #------------------------------
-{{variables}}
+uglify_flags = --screwie8 --mangle --compress
+
 #----------------------------
 #--End of Variables Section--
 #----------------------------
@@ -10,7 +11,12 @@
 #--------------------------
 #--Start of Rules Section--
 #--------------------------
-{{rules}}
+rule uglifyjs
+  command = jshint $in && uglifyjs $in --output $out --source-map $out.map ${uglify_flags}
+
+rule clean
+  command = rm -rf build
+
 #------------------------
 #--End of Rules Section--
 #------------------------
@@ -19,7 +25,12 @@
 #-------------------------------------
 #--Start of Build Statements Section--
 #-------------------------------------
-{{build_statements}}
+build build/test12.min.js: uglifyjs test1.js test2.js
+
+build build/test3.min.js: uglifyjs test3.js
+
+build clean: clean 
+
 #-----------------------------------
 #--End of Build Statements Section--
 #-----------------------------------
@@ -28,7 +39,10 @@
 #-----------------------------
 #--Start of Defaults Section--
 #-----------------------------
-{{defaults}}
+default build/test12.min.js
+
+default build/test3.min.js
+
 #---------------------------
 #--End of Defaults Section--
 #---------------------------
@@ -37,7 +51,8 @@
 #--------------------------------
 #--Start of Phony Alias Section--
 #--------------------------------
-{{phony_aliases}}
+build all: phony build/test12.min.js build/test3.min.js
+
 #------------------------------
 #--End of Phony Alias Section--
 #------------------------------

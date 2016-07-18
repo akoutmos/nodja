@@ -4,7 +4,8 @@ let fs = require('fs'),
     commander = require('commander'),
     glob = require('glob'),
     which = require('which'),
-    nodja_config_validator = require('./lib/NodjafileValidator');
+    nodja_config_validator = require('./lib/NodjafileValidator'),
+    ninja_builder = require('./lib/NinjafileBuilder.js');
 
 //Exposed module functions
 exports.cli = cli;
@@ -26,13 +27,8 @@ function cli (args) {
             //Set option defaults if none provided and get base ninja template
             let run_build = options.run || false,
                 output_file_name = options.output || 'build.ninja',
-                output_ninja_file = templates.ninja,
                 nodja_config,
-                num_build_statements = 0,
-                variable_section = [],
-                rule_section = [],
-                build_statement_section = [],
-                default_build_statements = [];
+                num_build_statements = 0;
 
             //Validate nodja config
             if (!nodja_config_validator(input_file)) {
@@ -45,63 +41,40 @@ function cli (args) {
 
             //Set variable section
             for (let variable in nodja_config.variables) {
-                variable_section.push(
-                    generateVariableEntry(variable, nodja_config.variables[variable])
-                );
+                ninja_builder.addVariable(variable, nodja_config.variables[variable]);
             }
 
             //Set rules section
             for (let rule in nodja_config.rules) {
-                rule_section.push(
-                    generateRuleEntry(rule, nodja_config.rules[rule])
-                );
+                ninja_builder.addRule(rule, nodja_config.rules[rule]);
             }
 
             //Set build statements section and defaults
             num_build_statements = nodja_config.build_statements.length;
             for (let i = 0; i < num_build_statements; i++) {
-                let entry = templates.build_statement,
-                    build_statement = nodja_config.build_statements[i];
+                let build_statement = nodja_config.build_statements[i];
 
                 //Output has exactly 1 input dependency (1:1)
                 if (!glob.hasMagic(build_statement.output) && !glob.hasMagic(build_statement.input)) {
-                    //Append resulting build step
-                    build_statement_section.push(
-                        generateBuildStatementEntry(build_statement.output, build_statement.rule, build_statement.input)
-                    );
+                    ninja_builder.addBuildStatement(build_statement.output, build_statement.rule, build_statement.input);
                 }
 
                 //Multiple inputs have been detected via globbing
                 else if (!glob.hasMagic(build_statement.output) && glob.hasMagic(build_statement.input)) {
                     let inputs = glob.sync(build_statement.input);
 
-                    //Append resulting build step
-                    build_statement_section.push(
-                        generateBuildStatementEntry(build_statement.output, build_statement.rule, inputs.join(' '))
-                    );
+                    ninja_builder.addBuildStatement(build_statement.output, build_statement.rule, inputs);
                 }
 
                 //Add build statement to list of defaults if flag set
                 if (build_statement.hasOwnProperty('default') && build_statement['default']) {
-                    default_build_statements.push(
-                        generateDefaultEntry(build_statement.output)
-                    );
+                    ninja_builder.addDefault(build_statement.output);
                 }
             }
 
-
-            //TODO: Set phony statements section
-
-
-            //Set all aggregated sections
-            output_ninja_file = output_ninja_file.replace('{{variables}}', variable_section.join('\n'));
-            output_ninja_file = output_ninja_file.replace('{{rules}}', rule_section.join('\n'));
-            output_ninja_file = output_ninja_file.replace('{{build_statements}}', build_statement_section.join('\n'));
-            output_ninja_file = output_ninja_file.replace('{{defaults}}', default_build_statements.join('\n'));
-
             //Write out generated ninja build file
             try {
-                fs.writeFileSync(output_file_name, output_ninja_file);
+                fs.writeFileSync(output_file_name, ninja_builder.generateNinjaBuild());
             } catch (err) {
                 console.error(`ERROR: Could not write to '${output_file_name}'`);
                 process.exit(1);
