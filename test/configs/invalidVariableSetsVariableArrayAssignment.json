@@ -1,0 +1,16 @@
+{
+    "variable_sets": {
+        "development": {
+            "var1": "development value 1",
+            "var2": "development value 2"
+        },
+        "production": {
+            "var1": "production value 1",
+            "var2": [
+                "statement0",
+                "statement1",
+                false
+            ]
+        }
+    }
+}

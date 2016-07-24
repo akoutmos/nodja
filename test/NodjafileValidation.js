@@ -24,7 +24,7 @@ test('File validator', function (t) {
 });
 
 test('Variable schema', function (t) {
-    t.plan(6);
+    t.plan(8);
 
     t.test('Config does not contain variable section', function (t) {
         t.throws(function () {
@@ -58,6 +58,14 @@ test('Variable schema', function (t) {
         t.end();
     });
 
+    t.test('Invalid variable array assignment', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidVariableArrayAssignment.json`);
+        }, { message: /Variable array entry index .* must be of type string/ });
+
+        t.end();
+    });
+
     t.test('Invalid variable_sets assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableSetsAssignments.json`);
@@ -70,6 +78,14 @@ test('Variable schema', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableSetsVariableAssignments.json`);
         }, { message: /Variable with key \'.*\' in variable set \'.*\' must be a string or an array of strings/ });
+
+        t.end();
+    });
+
+    t.test('Invalid variable_sets variable array assignment', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidVariableSetsVariableArrayAssignment.json`);
+        }, { message: /Variable array entry index .* must be of type string/ });
 
         t.end();
     });
