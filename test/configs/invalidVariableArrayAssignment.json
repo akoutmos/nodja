@@ -1,8 +1,8 @@
 {
     "variables": {
+        "var0": "valid",
         "var1": "valid",
-        "var2": "valid",
-        "var3": [
+        "var2": [
             "statement0",
             "statement1",
             false

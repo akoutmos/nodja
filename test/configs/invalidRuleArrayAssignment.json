@@ -6,6 +6,10 @@
     "rules": {
         "rule0": "valid",
         "rule1": "valid",
-        "rule2": 5
+        "rule2": [
+            "subrule0",
+            "subrule1",
+            false
+        ]
     }
 }

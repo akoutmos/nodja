@@ -1,6 +1,6 @@
 {
     "variables": {
-        "var0": "this is a valid variable"
+        "var1": "this is a valid variable"
     },
 
     "rule_sets": {
@@ -10,7 +10,11 @@
         },
         "production": {
             "rule0": "this is prod rule 1",
-            "rule1": false
+            "rule1": [
+                "subrule0",
+                "subrule1",
+                false
+            ]
         }
     }
 }

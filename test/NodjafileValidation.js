@@ -94,7 +94,7 @@ test('Variable schema', function (t) {
 });
 
 test('Rule schema', function (t) {
-    t.plan(6);
+    t.plan(8);
 
     t.test('Config does not contain rule section', function (t) {
         t.throws(function () {
@@ -128,6 +128,14 @@ test('Rule schema', function (t) {
         t.end();
     });
 
+    t.test('Invalid rule aray assignment', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleArrayAssignment.json`);
+        }, { message: /Rule array entry index .* must be of type string/ });
+
+        t.end();
+    });
+
     t.test('Invalid rule_sets assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidRuleSetsAssignments.json`);
@@ -143,6 +151,15 @@ test('Rule schema', function (t) {
 
         t.end();
     });
+
+    t.test('Invalid rule_sets rule array assignment', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidRuleSetsRuleArrayAssignment.json`);
+        }, { message: /Rule array entry index .* must be of type string/ });
+
+        t.end();
+    });
+
 
     t.end();
 });
