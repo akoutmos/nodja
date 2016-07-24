@@ -53,7 +53,7 @@ test('Variable schema', function (t) {
     t.test('Invalid variable assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableAssignments.json`);
-        }, { message: /Variable with key \'.*\' must be a string/ });
+        }, { message: /Variable with key \'.*\' must be a string or an array of strings/ });
 
         t.end();
     });
@@ -69,7 +69,7 @@ test('Variable schema', function (t) {
     t.test('Invalid variable_sets variable assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidVariableSetsVariableAssignments.json`);
-        }, { message: /Variable with key \'.*\' in variable set \'.*\' must be a string/ });
+        }, { message: /Variable with key \'.*\' in variable set \'.*\' must be a string or an array of strings/ });
 
         t.end();
     });
@@ -107,7 +107,7 @@ test('Rule schema', function (t) {
     t.test('Invalid rule assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidRuleAssignments.json`);
-        }, { message: /Rule with key \'.*\' must be a string/ });
+        }, { message: /Rule with key \'.*\' must be a string or an array of strings/ });
 
         t.end();
     });
@@ -123,7 +123,7 @@ test('Rule schema', function (t) {
     t.test('Invalid rule_sets rule assignments', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidRuleSetsRuleAssignments.json`);
-        }, { message: /Rule with key \'.*\' in rule set \'.*\' must be a string/ });
+        }, { message: /Rule with key \'.*\' in rule set \'.*\' must be a string or an array of strings/ });
 
         t.end();
     });
