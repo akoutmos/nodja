@@ -6,8 +6,6 @@
     "rules": {
         "var1": "valid",
         "var2": "valid",
-        "var3": [
-            "invalid"
-        ]
+        "var3": 5
     }
 }

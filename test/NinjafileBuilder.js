@@ -15,21 +15,24 @@ test('Add config builder and check results', function (t) {
         }
 
         //Check length
-        t.equal(builder.getVariables().length, num_vars, 'Expected number of variables post add');
+        t.equal(Object.keys(builder.getVariables()).length, num_vars, 'Expected number of variables post add');
 
         //Try deleting half the entries
-        builder.getVariables().splice(0, num_vars / 2);
+        let variables = builder.getVariables();
+        delete variables.var0;
+        delete variables.var1;
+        delete variables.var2;
 
         //Check length
-        t.equal(builder.getVariables().length, num_vars, 'Expected number of variables post slice');
+        t.equal(Object.keys(builder.getVariables()).length, num_vars, 'Expected number of variables post slice');
 
         //Check that entry is correct
-        t.equal(builder.getVariables()[0].name, 'var0', 'Expected variable name');
-        t.equal(builder.getVariables()[0].value, 'val0', 'Expected variable value');
+        t.equal(builder.getVariables().var0.length, 1, 'Expected variable length');
+        t.equal(builder.getVariables().var0[0], 'val0', 'Expected variable name');
 
         //Check that clearing removes all variables
         builder.clearAll();
-        t.equal(builder.getVariables().length, 0, 'Expected no variables');
+        t.equal(Object.keys(builder.getVariables()).length, 0, 'Expected no variables');
 
         t.end();
     });
@@ -44,21 +47,24 @@ test('Add config builder and check results', function (t) {
         }
 
         //Check length
-        t.equal(builder.getRules().length, num_rules, 'Expected number of rules post add');
+        t.equal(Object.keys(builder.getRules()).length, num_rules, 'Expected number of rules post add');
 
         //Try deleting half the entries
-        builder.getRules().splice(0, num_rules / 2);
+        let rules = builder.getRules();
+        delete rules.rule0;
+        delete rules.rule1;
+        delete rules.rule2;
 
         //Check length
-        t.equal(builder.getRules().length, num_rules, 'Expected number of rules post slice');
+        t.equal(Object.keys(builder.getRules()).length, num_rules, 'Expected number of rules post slice');
 
         //Check that entry is correct
-        t.equal(builder.getRules()[0].name, 'rule0', 'Expected rule name');
-        t.equal(builder.getRules()[0].command, 'command0', 'Expected rule command');
+        t.equal(builder.getRules().rule0.length, 1, 'Expected rule length');
+        t.equal(builder.getRules().rule0[0], 'command0', 'Expected rule command');
 
         //Check that clearing removes all rules
         builder.clearAll();
-        t.equal(builder.getRules().length, 0, 'Expected no rules');
+        t.equal(Object.keys(builder.getVariables()).length, 0, 'Expected no rules');
 
         t.end();
     });
@@ -131,21 +137,24 @@ test('Add config builder and check results', function (t) {
         }
 
         //Check length
-        t.equal(builder.getPhonyRules().length, num_phony, 'Expected number of phony rules post add');
+        t.equal(Object.keys(builder.getPhonyRules()).length, num_phony, 'Expected number of phony rules post add');
 
         //Try deleting half the entries
-        builder.getPhonyRules().splice(0, num_phony / 2);
+        let phony_rules = builder.getPhonyRules();
+        delete phony_rules.alias0;
+        delete phony_rules.alias1;
+        delete phony_rules.alias2;
 
         //Check length
-        t.equal(builder.getPhonyRules().length, num_phony, 'Expected number of phony rules post slice');
+        t.equal(Object.keys(builder.getPhonyRules()).length, num_phony, 'Expected number of phony rules post slice');
 
         //Check that entry is correct
-        t.equal(builder.getPhonyRules()[0].alias, 'alias0', 'Expected phony rule alias');
-        t.equal(builder.getPhonyRules()[0].output, 'output0', 'Expected phony rule output');
+        t.equal(builder.getPhonyRules().alias0.length, 1, 'Expected phony rule alias length');
+        t.equal(builder.getPhonyRules().alias0[0], 'output0', 'Expected phony rule output');
 
         //Check that clearing removes all rules
         builder.clearAll();
-        t.equal(builder.getPhonyRules().length, 0, 'Expected no phony rules');
+        t.equal(Object.keys(builder.getPhonyRules()).length, 0, 'Expected no phony rules');
 
         t.end();
     });

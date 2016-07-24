@@ -70,6 +70,11 @@ function cli (args) {
                 if (build_statement.hasOwnProperty('default') && build_statement['default']) {
                     ninja_builder.addDefault(build_statement.output);
                 }
+
+                //Add the build statement to list of phony if set
+                if (build_statement.hasOwnProperty('phony') && build_statement.phony) {
+                    ninja_builder.addPhonyRule(build_statement.phony, build_statement.output);
+                }
             }
 
             //Write out generated ninja build file
