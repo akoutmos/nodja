@@ -1,0 +1,11 @@
+{
+    "variables": {
+        "var0": "valid",
+        "var1": "valid",
+        "var2": [
+            "statement0",
+            "statement1",
+            false
+        ]
+    }
+}

@@ -6,7 +6,11 @@
         },
         "production": {
             "var0": "production value 1",
-            "var1": false
+            "var1": [
+                "statement0",
+                "statement1",
+                false
+            ]
         }
     }
 }

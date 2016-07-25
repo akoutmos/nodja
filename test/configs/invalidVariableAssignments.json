@@ -1,7 +1,7 @@
 {
     "variables": {
+        "var0": "valid",
         "var1": "valid",
-        "var2": "valid",
-        "var3": 5
+        "var2": 5
     }
 }
