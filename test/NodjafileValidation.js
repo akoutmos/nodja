@@ -241,7 +241,7 @@ test('Build statement schema', function (t) {
     t.end();
 });
 
-test('Build statement schema', function (t) {
+test('Valid Nodja file', function (t) {
     t.plan(1);
 
     t.doesNotThrow(function () {
