@@ -25,11 +25,11 @@ rule clean
 #-------------------------------------
 #--Start of Build Statements Section--
 #-------------------------------------
-build build/test12.min.js: uglifyjs test1.js test2.js
+build build/test12.min.js | : uglifyjs test1.js test2.js | 
 
-build build/test3.min.js: uglifyjs test3.js
+build build/test3.min.js | : uglifyjs test3.js | 
 
-build clean: clean 
+build clean | : clean  | 
 
 #-----------------------------------
 #--End of Build Statements Section--

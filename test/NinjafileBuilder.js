@@ -75,7 +75,7 @@ test('Add config builder and check results', function (t) {
 
         //Add varibles to builder
         for (let i = 0; i < num_build_statements; i++) {
-            builder.addBuildStatement('output' + i, 'rule' + i, 'dependency' + i);
+            builder.addBuildStatement('output' + i, 'rule' + i, 'input' + i, 'opt_input' + i, 'opt_output' + i);
         }
 
         //Check length
@@ -89,8 +89,10 @@ test('Add config builder and check results', function (t) {
 
         //Check that entry is correct
         t.equal(builder.getBuildStatements()[0].output, 'output0', 'Expected build statement output');
+        t.equal(builder.getBuildStatements()[0].opt_output, 'opt_output0', 'Expected build statement optional output');
         t.equal(builder.getBuildStatements()[0].rule, 'rule0', 'Expected build statement rule');
-        t.equal(builder.getBuildStatements()[0].dependencies, 'dependency0', 'Expected build statement dependency');
+        t.equal(builder.getBuildStatements()[0].input, 'input0', 'Expected build statement input');
+        t.equal(builder.getBuildStatements()[0].opt_input, 'opt_input0', 'Expected build statement optional input');
 
         //Check that clearing removes all variables
         builder.clearAll();

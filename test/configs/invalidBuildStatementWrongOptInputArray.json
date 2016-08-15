@@ -1,0 +1,18 @@
+{
+    "variables": {
+        "var0": "val0"
+    },
+
+    "rules": {
+        "rule0": "command0"
+    },
+
+    "build_statements": [
+        {
+            "input": "valid",
+            "opt_input": [ false ],
+            "output": "valid",
+            "rule": "valid"
+        }
+    ]
+}

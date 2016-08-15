@@ -164,7 +164,7 @@ test('Rule schema', function (t) {
 });
 
 test('Build statement schema', function (t) {
-    t.plan(9);
+    t.plan(13);
 
     t.test('Invalid build statement', function (t) {
         t.throws(function () {
@@ -190,10 +190,42 @@ test('Build statement schema', function (t) {
         t.end();
     });
 
+    t.test('Invalid build statement wrong optional input field', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidBuildStatementWrongOptInput.json`);
+        }, { message: /Build statement index .* optional field \'opt_input\' must be a string or an array of strings/ });
+
+        t.end();
+    });
+
+    t.test('Invalid build statement wrong optional input array field', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidBuildStatementWrongOptInputArray.json`);
+        }, { message: /Optional input array entry index .* must be of type string/ });
+
+        t.end();
+    });
+
     t.test('Invalid build statement no output field', function (t) {
         t.throws(function () {
             validator(`${__dirname}/configs/invalidBuildStatementNoOutput.json`);
         }, { message: /Build statement index .* must have an output field/ });
+
+        t.end();
+    });
+
+    t.test('Invalid build statement wrong optional output field', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidBuildStatementWrongOptOutput.json`);
+        }, { message: /Build statement index .* optional field \'opt_output\' must be a string or an array of strings/ });
+
+        t.end();
+    });
+
+    t.test('Invalid build statement wrong optional output array field', function (t) {
+        t.throws(function () {
+            validator(`${__dirname}/configs/invalidBuildStatementWrongOptOutputArray.json`);
+        }, { message: /Optional output array entry index .* must be of type string/ });
 
         t.end();
     });
