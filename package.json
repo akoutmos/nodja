@@ -27,11 +27,12 @@
     "homepage": "https://github.com/akoutmos/nodja#readme",
     "dependencies": {
         "commander": "2.9.0",
-        "glob": "git://github.com/akoutmos/node-glob.git#master",
-        "which": "1.2.10"
+        "glob": "7.1.1",
+        "which": "1.2.11",
+        "ajv": "4.7.7"
     },
     "devDependencies": {
-        "tap": "5.7.2",
-        "jshint": "2.9.2"
+        "tap": "7.1.2",
+        "jshint": "2.9.3"
     }
 }
